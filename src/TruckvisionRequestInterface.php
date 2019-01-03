@@ -7,5 +7,5 @@ interface TruckvisionRequestInterface
     /**
      * @return string
      */
-    public function build(): string;
+    public function build(\SoapClient $client): string;
 }

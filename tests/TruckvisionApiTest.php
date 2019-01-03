@@ -19,12 +19,12 @@ class TruckvisionApiTest extends TestCase
 
     public function setUp()
     {
-        dd($this->getMockFromWsdl(__DIR__ . '/../src/WSDL/V3.xml'));
         $this->truckvision_api = new TruckvisionApi();
     }
 
     public function test_start_web_clock_call()
     {
-        dd($this->truckvision_api);
+		$request = new StartWebClock();
+        dd($this->truckvision_api->request($request));
     }
 }

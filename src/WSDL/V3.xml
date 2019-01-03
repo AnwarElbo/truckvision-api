@@ -34,30 +34,6 @@
                     namespace="http://schemas.datacontract.org/2004/07/TruckVision.Services.DossierService.V3"/>
         </xsd:schema>
     </wsdl:types>
-    <wsdl:message name="IDossier_AddTransaction_InputMessage">
-        <wsdl:part name="parameters" element="tns:AddTransaction"/>
-    </wsdl:message>
-    <wsdl:message name="IDossier_AddTransaction_OutputMessage">
-        <wsdl:part name="parameters" element="tns:AddTransactionResponse"/>
-    </wsdl:message>
-    <wsdl:message name="IDossier_SearchServiceRapidoCodes_InputMessage">
-        <wsdl:part name="parameters" element="tns:SearchServiceRapidoCodes"/>
-    </wsdl:message>
-    <wsdl:message name="IDossier_SearchServiceRapidoCodes_OutputMessage">
-        <wsdl:part name="parameters" element="tns:SearchServiceRapidoCodesResponse"/>
-    </wsdl:message>
-    <wsdl:message name="IDossier_StartWebklok_InputMessage">
-        <wsdl:part name="parameters" element="tns:StartWebklok"/>
-    </wsdl:message>
-    <wsdl:message name="IDossier_StartWebklok_OutputMessage">
-        <wsdl:part name="parameters" element="tns:StartWebklokResponse"/>
-    </wsdl:message>
-    <wsdl:message name="IDossier_StopWebklok_InputMessage">
-        <wsdl:part name="parameters" element="tns:StopWebklok"/>
-    </wsdl:message>
-    <wsdl:message name="IDossier_StopWebklok_OutputMessage">
-        <wsdl:part name="parameters" element="tns:StopWebklokResponse"/>
-    </wsdl:message>
     <wsdl:portType name="IDossier">
         <wsdl:operation name="AddTransaction">
             <wsdl:input wsaw:Action="http://relead.nl/dossierservice/V3/IDossier/AddTransaction"
