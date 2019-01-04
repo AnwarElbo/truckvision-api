@@ -65,14 +65,14 @@ class StartWebClock implements TruckvisionRequestInterface
     public function build(): string
     {
         $request = [
-            'StartWebKlok' => [
-                'request' => [
-                    'ImproductivityCode' => $this->improductivity_code,
-                    'LanguageCode'       => $this->language_code,
-                    'MechanicCode'       => $this->mechanic_code,
-                    'OrderNumber'        => $this->order_number,
-                    'Start'              => $this->start,
-                    'UserName'           => $this->username,
+            'v3:StartWebKlok' => [
+                'v3:request' => [
+                    'dos:ImproductivityCode' => $this->improductivity_code,
+                    'dos:LanguageCode'       => $this->language_code,
+                    'dos:MechanicCode'       => $this->mechanic_code,
+                    'dos:OrderNumber'        => $this->order_number,
+                    'dos:Start'              => $this->start,
+                    'dos:UserName'           => $this->username,
                 ],
             ],
         ];

@@ -40,12 +40,8 @@ class RequestTemplate
      * @param array  $body
      * @param string $namespace
      */
-    public function setBody(array $body, string $namespace = ''): void
+    public function setBody(array $body, string $namespace = 'dos'): void
     {
-        if ('' !== $namespace) {
-            $body = $this->setNamespace($body, $namespace);
-        }
-
         $this->body = $body;
     }
 
@@ -67,6 +63,7 @@ class RequestTemplate
             '_attributes'     => [
                 'xmlns:soapenv' => 'http://schemas.xmlsoap.org/soap/envelope/',
                 'xmlns:dos'     => 'http://relead.nl/dossierservice',
+                'xmlns:v3'     => 'http://relead.nl/dossierservice/V3',
             ],
         ]);
     }
