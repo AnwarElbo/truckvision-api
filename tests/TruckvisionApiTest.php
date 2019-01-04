@@ -2,9 +2,11 @@
 
 namespace Xolvio\Tests;
 
+use Artisaninweb\SoapWrapper\Service;
+use Artisaninweb\SoapWrapper\SoapWrapper;
 use PHPUnit\Framework\TestCase;
-use Xolvio\TruckvisionApi\Requests\RequestTemplate;
-use Xolvio\TruckvisionApi\Requests\StartWebClock;
+use Xolvio\TruckvisionApi\Soap\Request\StartWebClockRequest;
+use Xolvio\TruckvisionApi\Soap\Response\StartWebClockResponse;
 use Xolvio\TruckvisionApi\TruckvisionApi;
 
 class TruckvisionApiTest extends TestCase
@@ -21,16 +23,18 @@ class TruckvisionApiTest extends TestCase
 
     public function test_start_web_clock_call()
     {
-        $request = new StartWebClock(
-            new RequestTemplate(),
-            'VG',
-            'NL',
-            201,
-            '20180416668',
-            '20180419 143829',
-            'Gebruiker'
-        );
+        $soap = new SoapWrapper();
+        $soap->add('truckvision', function (Service $service) {
+            $service->wsdl(__DIR__ . '/../src/wsdl/v3.xml')
+                ->trace(true)
+                ->classMap([
+                    StartWebClockRequest::class,
+                    StartWebClockResponse::class,
+                ]);
+        });
 
-        dd($this->truckvision_api->request($request)->send());
+        dd($soap->call('truckvision.StartWebKlok', [
+            new StartWebClockRequest('', 'VG', 'NL', 'WO20180702069501', '20190104', 'Test!'),
+        ]));
     }
 }
