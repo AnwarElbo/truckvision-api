@@ -16,6 +16,7 @@ class TruckvisionApi
         $this->client = new \SoapClient('http://truckvision.sentwaninge.com/Services/DossierService/' . $wsdl_version . '/Dossier.svc?wsdl', [
             'trace' => 1
         ]);
+		
     }
 
     public function request(TruckvisionRequestInterface $request)
