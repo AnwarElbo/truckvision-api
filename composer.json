@@ -1,37 +1,40 @@
 {
-    "name": "xolvio/truckvision-api",
-    "description": "Connection with the Truckvision webservice",
-    "authors": [
-        {
-            "name": "Anwar el Bouhdifi",
-            "email": "anwar.elbouhdifi@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=7.0",
-        "illuminate/container": "5.7.x",
-        "illuminate/database": "5.7.x",
-        "illuminate/support": "5.7.x",
-        "illuminate/http": "5.7.x",
-        "guzzlehttp/guzzle": "^6.3.3",
-        "symfony/var-dumper": "4.x",
-        "spatie/array-to-xml": "dev-master",
-        "ext-soap": "*"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^7"
-    },
-    "autoload":{
-        "psr-4": {
-            "Xolvio\\TruckvisionApi\\": "src/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Xolvio\\TruckvisionApi\\ServiceProvider"
-            ]
-        }
+  "name": "xolvio/truckvision-api",
+  "description": "Connection with the Truckvision webservice",
+  "authors": [
+    {
+      "name": "Anwar el Bouhdifi",
+      "email": "anwar.elbouhdifi@gmail.com"
     }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.1",
+    "illuminate/container": "5.7.x",
+    "illuminate/database": "5.7.x",
+    "illuminate/support": "5.7.x",
+    "illuminate/http": "5.7.x",
+    "guzzlehttp/guzzle": "^6.3.3",
+    "symfony/var-dumper": "4.x",
+    "spatie/array-to-xml": "dev-master",
+    "ext-soap": "*",
+    "ext-curl": "*",
+    "ext-simplexml": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7",
+    "friendsofphp/php-cs-fixer": "^2.14@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Xolvio\\TruckvisionApi\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Xolvio\\TruckvisionApi\\ServiceProvider"
+      ]
+    }
+  }
 }
