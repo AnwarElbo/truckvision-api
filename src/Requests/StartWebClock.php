@@ -77,7 +77,7 @@ class StartWebClock implements TruckvisionRequestInterface
             ],
         ];
 
-        $this->request_template->setBody($request, 'dos');
+        $this->request_template->setBody($request);
 
         return $this->request_template->toString();
     }
