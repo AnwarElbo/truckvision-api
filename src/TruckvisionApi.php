@@ -62,7 +62,7 @@ class TruckvisionApi
             curl_close($connection);
         }
 
-        if ('' === $response) {
+        if (0 === strlen($response)) {
             throw new TruckvisionApiNoResponseException('No response called ' . $this->end_point . ' with the following XML: ' . $this->request);
         }
 
