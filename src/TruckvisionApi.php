@@ -14,9 +14,14 @@ class TruckvisionApi
     private $end_point;
 
     /**
-     * @var string
+     * @var TruckvisionRequestInterface
      */
     private $request;
+
+    /**
+     * @var string
+     */
+    private $xml;
 
     public function __construct(string $end_point)
     {
@@ -30,7 +35,8 @@ class TruckvisionApi
      */
     public function request(TruckvisionRequestInterface $request): self
     {
-        $this->request = $request->build();
+        $this->request = $request;
+        $this->xml     = $request->build();
 
         return $this;
     }
@@ -51,7 +57,7 @@ class TruckvisionApi
         curl_setopt($connection, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($connection, CURLOPT_TIMEOUT, $options['timeout'] ?? 10);
         curl_setopt($connection, CURLOPT_POST, true);
-        curl_setopt($connection, CURLOPT_POSTFIELDS, $this->request);
+        curl_setopt($connection, CURLOPT_POSTFIELDS, $this->xml);
         curl_setopt($connection, CURLOPT_HTTPHEADER, $this->getHeaders());
 
         try {
@@ -62,8 +68,8 @@ class TruckvisionApi
             curl_close($connection);
         }
 
-        if (0 === strlen($response)) {
-            throw new TruckvisionApiNoResponseException('No response called ' . $this->end_point . ' with the following XML: ' . $this->request);
+        if ($response === '') {
+            throw new TruckvisionApiNoResponseException('No response called ' . $this->end_point . ' with the following XML: ' . $this->xml);
         }
 
         if (! $parsed_response = simplexml_load_string($response)) {
@@ -83,7 +89,8 @@ class TruckvisionApi
             'Accept: text/xml',
             'Cache-Control: no-cache',
             'Pragma: no-cache',
-            'Content-length: ' . strlen($this->request),
+            'SoapAction: "http://relead.nl' . $this->request->getAction() . '"',
+            'Content-length: ' . strlen($this->xml),
         ];
     }
 }

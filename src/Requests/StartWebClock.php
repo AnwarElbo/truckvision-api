@@ -81,4 +81,12 @@ class StartWebClock implements TruckvisionRequestInterface
 
         return $this->request_template->toString();
     }
+
+    /**
+     * @return string
+     */
+    public function getAction(): string
+    {
+        return '/dossierservice/V3/IDossier/StartWebklok';
+    }
 }

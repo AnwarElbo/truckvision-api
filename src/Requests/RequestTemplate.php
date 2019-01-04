@@ -20,27 +20,9 @@ class RequestTemplate
     }
 
     /**
-     * @param array  $body
-     * @param string $namespace
-     *
-     * @return array
+     * @param array $body
      */
-    private function setNamespace(array $body, string $namespace): array
-    {
-        return collect($body)->mapWithKeys(function ($value, $key) use ($namespace) {
-            if (is_array($value)) {
-                $value = $this->setNamespace($value, $namespace);
-            }
-
-            return [$namespace . ':' . $key => $value];
-        })->toArray();
-    }
-
-    /**
-     * @param array  $body
-     * @param string $namespace
-     */
-    public function setBody(array $body, string $namespace = 'dos'): void
+    public function setBody(array $body): void
     {
         $this->body = $body;
     }
@@ -58,12 +40,12 @@ class RequestTemplate
      */
     public function toString(): string
     {
-        return ArrayToXml::convert(['soapEnv:Header' => $this->getHeader(), 'soapEnv:Body' => $this->getBody()], [
+        return ArrayToXml::convert(['soapenv:Header' => $this->getHeader(), 'soapenv:Body' => $this->getBody()], [
             'rootElementName' => 'soapenv:Envelope',
             '_attributes'     => [
                 'xmlns:soapenv' => 'http://schemas.xmlsoap.org/soap/envelope/',
                 'xmlns:dos'     => 'http://relead.nl/dossierservice',
-                'xmlns:v3'     => 'http://relead.nl/dossierservice/V3',
+                'xmlns:v3'      => 'http://relead.nl/dossierservice/V3',
             ],
         ]);
     }
