@@ -2,6 +2,7 @@
 
 namespace Xolvio\TruckvisionApi\Requests;
 
+use DateTime;
 use Xolvio\TruckvisionApi\TruckvisionRequestInterface;
 
 class StartWebClock implements TruckvisionRequestInterface
@@ -32,7 +33,7 @@ class StartWebClock implements TruckvisionRequestInterface
     private $order_number;
 
     /**
-     * @var string
+     * @var DateTime
      */
     private $start;
 
@@ -47,7 +48,7 @@ class StartWebClock implements TruckvisionRequestInterface
         string $language_code,
         int $mechanic_code,
         string $order_number,
-        string $start,
+        DateTime $start,
         string $username
     ) {
         $this->request_template    = $request_template;
@@ -65,13 +66,13 @@ class StartWebClock implements TruckvisionRequestInterface
     public function build(): string
     {
         $request = [
-            'v3:StartWebKlok' => [
+            'v3:StartWebklok' => [
                 'v3:request' => [
                     'dos:ImproductivityCode' => $this->improductivity_code,
                     'dos:LanguageCode'       => $this->language_code,
                     'dos:MechanicCode'       => $this->mechanic_code,
                     'dos:OrderNumber'        => $this->order_number,
-                    'dos:Start'              => $this->start,
+                    'dos:Start'              => $this->start->format('c'),
                     'dos:UserName'           => $this->username,
                 ],
             ],
