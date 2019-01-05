@@ -7,7 +7,6 @@
       "email": "anwar.elbouhdifi@gmail.com"
     }
   ],
-  "minimum-stability": "dev",
   "require": {
     "php": ">=7.1",
     "illuminate/container": "5.7.x",
