@@ -1,0 +1,10 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+    <s:Body>
+        <StartWebklokResponse xmlns="http://relead.nl/dossierservice">
+            <StartWebklokResult xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+                <a:ErrorMessages i:nil="true" />
+                <a:KlokkingId>31245</a:KlokkingId>
+            </StartWebklokResult>
+        </StartWebklokResponse>
+    </s:Body>
+</s:Envelope>

@@ -1,9 +1,11 @@
 <?php
 
-namespace Xolvio\TruckvisionApi\Requests;
+namespace Xolvio\TruckvisionApi\Request;
 
 use DateTime;
+use Xolvio\TruckvisionApi\Response\StartWebClockResponse;
 use Xolvio\TruckvisionApi\TruckvisionRequestInterface;
+use Xolvio\TruckvisionApi\TruckvisionResponseInterface;
 
 class StartWebClock implements TruckvisionRequestInterface
 {
@@ -44,12 +46,12 @@ class StartWebClock implements TruckvisionRequestInterface
 
     public function __construct(
         RequestTemplate $request_template,
-        string $improductivity_code,
-        string $language_code,
         int $mechanic_code,
         string $order_number,
         DateTime $start,
-        string $username
+        string $username,
+        string $improductivity_code = 'VG',
+        string $language_code = 'NL'
     ) {
         $this->request_template    = $request_template;
         $this->improductivity_code = $improductivity_code;
@@ -89,5 +91,15 @@ class StartWebClock implements TruckvisionRequestInterface
     public function getAction(): string
     {
         return '/dossierservice/V3/IDossier/StartWebklok';
+    }
+
+    /**
+     * @param \SimpleXMLElement $xml
+     *
+     * @return TruckvisionResponseInterface
+     */
+    public function setResponse(\SimpleXMLElement $xml): TruckvisionResponseInterface
+    {
+        return new StartWebClockResponse($xml);
     }
 }

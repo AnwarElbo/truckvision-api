@@ -13,4 +13,11 @@ interface TruckvisionRequestInterface
      * @return string
      */
     public function getAction(): string;
+
+    /**
+     * @param \SimpleXMLElement $element
+     *
+     * @return TruckvisionResponseInterface
+     */
+    public function setResponse(\SimpleXMLElement $element): TruckvisionResponseInterface;
 }

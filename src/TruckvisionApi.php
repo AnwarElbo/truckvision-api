@@ -5,7 +5,6 @@ namespace Xolvio\TruckvisionApi;
 use GuzzleHttp\ClientInterface;
 use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiConnectionException;
 use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiNoResponseException;
-use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiXmlParseException;
 
 class TruckvisionApi
 {
@@ -53,12 +52,11 @@ class TruckvisionApi
      *
      * @throws TruckvisionApiConnectionException
      * @throws TruckvisionApiNoResponseException
-     * @throws TruckvisionApiXmlParseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
-     * @return \SimpleXMLElement
+     * @return TruckvisionResponseInterface
      */
-    public function send(array $options = []): \SimpleXMLElement
+    public function send(array $options = []): TruckvisionResponseInterface
     {
         try {
             $response = $this->client->request('POST', $this->end_point, [
@@ -76,7 +74,7 @@ class TruckvisionApi
             throw new TruckvisionApiNoResponseException('No response called ' . $this->end_point . ' with the following XML: ' . $this->xml);
         }
 
-        return new \SimpleXMLElement($contents);
+        return $this->request->setResponse(new \SimpleXMLElement($contents));
     }
 
     /**

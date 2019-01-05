@@ -1,6 +1,6 @@
 <?php
 
-namespace Xolvio\TruckvisionApi\Requests;
+namespace Xolvio\TruckvisionApi\Request;
 
 use Spatie\ArrayToXml\ArrayToXml;
 

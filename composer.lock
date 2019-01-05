@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aacca5f57127199ecb98d28ef7073467",
+    "content-hash": "355322b1ccffb4b145b7267c1278cde6",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -2045,6 +2045,53 @@
             "time": "2019-01-02T13:41:55+00:00"
         },
         {
+            "name": "imsop/simplexml_debug",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/IMSoP/simplexml_debug.git",
+                "reference": "627c7d5685f45bcfd83a45099053cbfface0779c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/IMSoP/simplexml_debug/zipball/627c7d5685f45bcfd83a45099053cbfface0779c",
+                "reference": "627c7d5685f45bcfd83a45099053cbfface0779c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/simplexml_dump.php",
+                    "src/simplexml_tree.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rowan Collins",
+                    "homepage": "http://rwec.co.uk",
+                    "role": "Lead"
+                },
+                {
+                    "name": "Josh Sherman",
+                    "email": "josh@gravityblvd.com",
+                    "homepage": "http://joshtronic.com",
+                    "role": "Contributor"
+                }
+            ],
+            "description": "Tools for debugging your code when working with PHP's SimpleXML functions.",
+            "time": "2017-11-09T23:10:38+00:00"
+        },
+        {
             "name": "myclabs/deep-copy",
             "version": "1.x-dev",
             "source": {
@@ -3828,13 +3875,16 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "spatie/array-to-xml": 20,
-        "friendsofphp/php-cs-fixer": 20
+        "friendsofphp/php-cs-fixer": 20,
+        "imsop/simplexml_debug": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.1",
-        "ext-soap": "*"
+        "ext-soap": "*",
+        "ext-curl": "*",
+        "ext-simplexml": "*"
     },
     "platform-dev": []
 }
