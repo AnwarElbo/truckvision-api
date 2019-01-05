@@ -2,7 +2,7 @@
 
 namespace Xolvio\TruckvisionApi\Response;
 
-use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiException;
+use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiResponseExceptionHandler;
 use Xolvio\TruckvisionApi\TruckvisionResponseInterface;
 
 class StartWebClockResponse implements TruckvisionResponseInterface
@@ -32,25 +32,7 @@ class StartWebClockResponse implements TruckvisionResponseInterface
         $this->content    = $content;
         $this->namespaces = $content->getNamespaces(true);
 
-        $this->handleExceptions();
-    }
-
-    /**
-     * @throws TruckvisionApiException
-     */
-    private function handleExceptions(): void
-    {
-        $exception_message = $this->getBody()
-            ->children($this->namespaces['a'])
-            ->ErrorMessages;
-
-        if ('' === (string) $exception_message) {
-            return;
-        }
-
-        $exception_message = $exception_message->children($this->namespaces['b'])->string;
-
-        throw new TruckvisionApiException($exception_message);
+        TruckvisionApiResponseExceptionHandler::handle($this->getBody(), $this->namespaces);
     }
 
     /**

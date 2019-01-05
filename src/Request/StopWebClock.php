@@ -4,6 +4,7 @@ namespace Xolvio\TruckvisionApi\Request;
 
 use DateTime;
 use Xolvio\TruckvisionApi\Response\StopWebClockResponse;
+use Xolvio\TruckvisionApi\Transaction\TransactionCollection;
 use Xolvio\TruckvisionApi\TruckvisionRequestInterface;
 use Xolvio\TruckvisionApi\TruckvisionResponseInterface;
 
@@ -35,31 +36,39 @@ class StopWebClock implements TruckvisionRequestInterface
     private $order_number;
 
     /**
-     * @var DateTime
-     */
-    private $start;
-
-    /**
      * @var string
      */
     private $username;
 
+    /**
+     * @var TransactionCollection
+     */
+    private $transaction_collection;
+
+    /**
+     * @var int
+     */
+    private $clocking_id;
+
+    /**
+     * @var DateTime
+     */
+    private $stop;
+
     public function __construct(
         RequestTemplate $request_template,
-        int $mechanic_code,
-        string $order_number,
-        DateTime $start,
+        TransactionCollection $transaction_collection,
+        int $clocking_id,
+        DateTime $stop,
         string $username,
-        string $language_code = 'NL',
-        string $improductivity_code = 'VG'
+        string $language_code = 'NL'
     ) {
-        $this->request_template    = $request_template;
-        $this->improductivity_code = $improductivity_code;
-        $this->language_code       = $language_code;
-        $this->mechanic_code       = $mechanic_code;
-        $this->order_number        = $order_number;
-        $this->start               = $start;
-        $this->username            = $username;
+        $this->request_template       = $request_template;
+        $this->transaction_collection = $transaction_collection;
+        $this->clocking_id            = $clocking_id;
+        $this->language_code          = $language_code;
+        $this->username               = $username;
+        $this->stop                   = $stop;
     }
 
     /**
@@ -67,7 +76,21 @@ class StopWebClock implements TruckvisionRequestInterface
      */
     public function build(): string
     {
-        // TODO: Implement build() method.
+        $body = [
+            'v3:StopWebklok' => [
+                'v3:request' => [
+                    'dos:KlokkingId'          => $this->clocking_id,
+                    'dos:LanguageCode'        => $this->language_code,
+                    'dos:Stop'                => $this->stop->format('c'),
+                    'dos:UserName'            => $this->username,
+                    'dos:WebklokTransactions' => $this->transaction_collection->toArray(),
+                ],
+            ],
+        ];
+
+        $this->request_template->setBody($body);
+
+        return $this->request_template->toString();
     }
 
     /**
@@ -75,7 +98,7 @@ class StopWebClock implements TruckvisionRequestInterface
      */
     public function getAction(): string
     {
-        // TODO: Implement getAction() method.
+        return '/dossierservice/V3/IDossier/StopWebklok';
     }
 
     /**

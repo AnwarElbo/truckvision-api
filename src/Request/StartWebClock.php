@@ -67,7 +67,7 @@ class StartWebClock implements TruckvisionRequestInterface
      */
     public function build(): string
     {
-        $request = [
+        $body = [
             'v3:StartWebklok' => [
                 'v3:request' => [
                     'dos:ImproductivityCode' => $this->improductivity_code,
@@ -80,7 +80,7 @@ class StartWebClock implements TruckvisionRequestInterface
             ],
         ];
 
-        $this->request_template->setBody($request);
+        $this->request_template->setBody($body);
 
         return $this->request_template->toString();
     }

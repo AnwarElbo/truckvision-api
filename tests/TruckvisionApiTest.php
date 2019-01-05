@@ -11,6 +11,9 @@ use Psr\Http\Message\StreamInterface;
 use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiException;
 use Xolvio\TruckvisionApi\Request\RequestTemplate;
 use Xolvio\TruckvisionApi\Request\StartWebClock;
+use Xolvio\TruckvisionApi\Request\StopWebClock;
+use Xolvio\TruckvisionApi\Transaction\Transaction;
+use Xolvio\TruckvisionApi\Transaction\TransactionCollection;
 use Xolvio\TruckvisionApi\TruckvisionApi;
 
 class TruckvisionApiTest extends TestCase
@@ -40,6 +43,7 @@ class TruckvisionApiTest extends TestCase
         $this->requests = [
             'error_start_web_clock_response'   => file_get_contents(__DIR__ . '/responses/error_start_web_clock_response.xml'),
             'success_start_web_clock_response' => file_get_contents(__DIR__ . '/responses/success_start_web_clock_response.xml'),
+            'error_stop_web_clock_response'    => file_get_contents(__DIR__ . '/responses/error_stop_web_clock_response.xml'),
         ];
 
         $this->client    = $this->prophesize(ClientInterface::class);
@@ -63,7 +67,7 @@ class TruckvisionApiTest extends TestCase
             4001,
             '20180416668',
             new DateTime('2019-01-06 07:45'),
-            'Gebruiker'
+            'User'
         );
 
         $this->truckvision_api->request($request)->send();
@@ -78,13 +82,39 @@ class TruckvisionApiTest extends TestCase
             4001,
             '20180416668',
             new DateTime('2019-01-06 07:45'),
-            'Gebruiker'
+            'User'
         );
 
         $this->assertSame(
             31245,
             $this->truckvision_api->request($request)->send()->getClockingId()
         );
+    }
+
+    public function test_error_stop_web_clock_all(): void
+    {
+        $this->expectException(TruckvisionApiException::class);
+        $this->expectExceptionMessage('Er is geen licentie gevonden voor dit maatwerk');
+
+        $this->mockRequest('error_stop_web_clock_response');
+
+        $transaction_collection = new TransactionCollection();
+
+        $transaction_collection->add(new Transaction(0.25, 22222));
+        $transaction_collection->add(new Transaction(1.04, 482984));
+        $transaction_collection->add(new Transaction(2.10, 18923));
+        $transaction_collection->add(new Transaction(3.75, 93842));
+        $transaction_collection->add(new Transaction(4.50, 983298));
+
+        $request = new StopWebClock(
+            new RequestTemplate(),
+            $transaction_collection,
+            912019,
+            new DateTime('2019-01-05 04:33'),
+            'User'
+        );
+
+        $this->truckvision_api->request($request)->send();
     }
 
     private function mockRequest(string $request): void
