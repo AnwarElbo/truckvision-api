@@ -20,17 +20,17 @@ class TruckvisionApiTest extends TestCase
     {
         $this->truckvision_api = new TruckvisionApi(
             new Client(),
-            'http://truckvisiontest.sentwaningen.com/Services/DossierService/V3/Dossier.svc'
+            'http://truckvisiontest.sentwaninge.com/Services/DossierService/V3/Dossier.svc'
         );
     }
 
-    public function test_start_web_clock_call()
+    public function test_start_web_clock_call(): void
     {
         $request = new StartWebClock(
             new RequestTemplate(),
             'VG',
             'NL',
-            201,
+            4001,
             '20180416668',
             new DateTime('2019-01-06 07:45'),
             'Gebruiker'

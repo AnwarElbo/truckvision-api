@@ -70,15 +70,13 @@ class TruckvisionApi
             throw new TruckvisionApiConnectionException($e->getMessage(), $e->getCode(), $e);
         }
 
-        if ('' === $response) {
+        $contents = $response->getBody()->getContents();
+
+        if ('' === $contents) {
             throw new TruckvisionApiNoResponseException('No response called ' . $this->end_point . ' with the following XML: ' . $this->xml);
         }
 
-        if (! $parsed_response = simplexml_load_string($response)) {
-            throw new TruckvisionApiXmlParseException('Response: ' . $response . '. Couldn\'t get parsed by SimpleXml.');
-        }
-
-        return $parsed_response;
+        return new \SimpleXMLElement($contents);
     }
 
     /**
