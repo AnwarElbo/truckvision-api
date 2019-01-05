@@ -2,12 +2,18 @@
 
 namespace Xolvio\TruckvisionApi;
 
+use GuzzleHttp\ClientInterface;
 use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiConnectionException;
 use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiNoResponseException;
 use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiXmlParseException;
 
 class TruckvisionApi
 {
+    /**
+     * @var ClientInterface
+     */
+    private $client;
+
     /**
      * @var string
      */
@@ -23,9 +29,10 @@ class TruckvisionApi
      */
     private $xml;
 
-    public function __construct(string $end_point)
+    public function __construct(ClientInterface $client, string $end_point)
     {
         $this->end_point = $end_point;
+        $this->client    = $client;
     }
 
     /**
@@ -45,27 +52,22 @@ class TruckvisionApi
      * @param array $options
      *
      * @throws TruckvisionApiConnectionException
-     * @throws TruckvisionApiXmlParseException
      * @throws TruckvisionApiNoResponseException
+     * @throws TruckvisionApiXmlParseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return \SimpleXMLElement
      */
     public function send(array $options = []): \SimpleXMLElement
     {
-        $connection = curl_init($this->end_point);
-
-        curl_setopt($connection, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($connection, CURLOPT_TIMEOUT, $options['timeout'] ?? 10);
-        curl_setopt($connection, CURLOPT_POST, true);
-        curl_setopt($connection, CURLOPT_POSTFIELDS, $this->xml);
-        curl_setopt($connection, CURLOPT_HTTPHEADER, $this->getHeaders());
-
         try {
-            $response = curl_exec($connection);
+            $response = $this->client->request('POST', $this->end_point, [
+                'debug'   => $options['debug'] ?? false,
+                'body'    => $this->xml,
+                'headers' => $this->getHeaders(),
+            ]);
         } catch (\Exception $e) {
             throw new TruckvisionApiConnectionException($e->getMessage(), $e->getCode(), $e);
-        } finally {
-            curl_close($connection);
         }
 
         if ('' === $response) {
@@ -85,12 +87,12 @@ class TruckvisionApi
     private function getHeaders(): array
     {
         return [
-            'Content-type: text/xml;charset="utf-8"',
-            'Accept: text/xml',
-            'Cache-Control: no-cache',
-            'Pragma: no-cache',
-            'SoapAction: "http://relead.nl' . $this->request->getAction() . '"',
-            'Content-length: ' . strlen($this->xml),
+            'Content-type'   => 'text/xml;charset="utf-8"',
+            'Accept'         => 'text/xml',
+            'Cache-Control'  => 'no-cache',
+            'Pragma'         => 'no-cache',
+            'SoapAction'     => '"http://relead.nl' . $this->request->getAction() . '"',
+            'Content-length' => strlen($this->xml),
         ];
     }
 }

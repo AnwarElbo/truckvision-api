@@ -2,6 +2,8 @@
 
 namespace Xolvio\Tests;
 
+use DateTime;
+use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 use Xolvio\TruckvisionApi\Requests\RequestTemplate;
 use Xolvio\TruckvisionApi\Requests\StartWebClock;
@@ -16,7 +18,10 @@ class TruckvisionApiTest extends TestCase
 
     public function setUp()
     {
-        $this->truckvision_api = new TruckvisionApi('~/Services/DossierService/V3/Dossier.svc');
+        $this->truckvision_api = new TruckvisionApi(
+            new Client(),
+            'http://truckvisiontest.sentwaningen.com/Services/DossierService/V3/Dossier.svc'
+        );
     }
 
     public function test_start_web_clock_call()
@@ -27,7 +32,7 @@ class TruckvisionApiTest extends TestCase
             'NL',
             201,
             '20180416668',
-            '20180419 143829',
+            new DateTime('2019-01-06 07:45'),
             'Gebruiker'
         );
 
