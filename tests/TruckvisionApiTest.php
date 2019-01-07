@@ -8,7 +8,8 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiException;
+use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiMechanicHasClockingOpenException;
+use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiNoLicenseException;
 use Xolvio\TruckvisionApi\Request\RequestTemplate;
 use Xolvio\TruckvisionApi\Request\StartWebClock;
 use Xolvio\TruckvisionApi\Request\StopWebClock;
@@ -41,9 +42,10 @@ class TruckvisionApiTest extends TestCase
     public function setUp()
     {
         $this->requests = [
-            'error_start_web_clock_response'   => file_get_contents(__DIR__ . '/responses/error_start_web_clock_response.xml'),
-            'success_start_web_clock_response' => file_get_contents(__DIR__ . '/responses/success_start_web_clock_response.xml'),
-            'error_stop_web_clock_response'    => file_get_contents(__DIR__ . '/responses/error_stop_web_clock_response.xml'),
+            'error_no_license_start_web_clock_response'                 => file_get_contents(__DIR__ . '/responses/error_no_license_start_web_clock_response.xml'),
+            'success_start_web_clock_response'                          => file_get_contents(__DIR__ . '/responses/success_start_web_clock_response.xml'),
+            'error_mechanic_has_clocking_open_start_web_clock_response' => file_get_contents(__DIR__ . '/responses/error_mechanic_has_clocking_open_start_web_clock_response.xml'),
+            'error_stop_web_clock_response'                             => file_get_contents(__DIR__ . '/responses/error_stop_web_clock_response.xml'),
         ];
 
         $this->client    = $this->prophesize(ClientInterface::class);
@@ -57,16 +59,34 @@ class TruckvisionApiTest extends TestCase
 
     public function test_error_start_web_clock_call(): void
     {
-        $this->expectException(TruckvisionApiException::class);
+        $this->expectException(TruckvisionApiNoLicenseException::class);
         $this->expectExceptionMessage('Er is geen licentie gevonden voor dit maatwerk');
 
-        $this->mockRequest('error_start_web_clock_response');
+        $this->mockRequest('error_no_license_start_web_clock_response');
 
         $request = new StartWebClock(
             new RequestTemplate(),
             4001,
             '20180416668',
             new DateTime('2019-01-06 07:45'),
+            'User'
+        );
+
+        $this->truckvision_api->request($request)->send();
+    }
+
+    public function test_mechanic_has_clocking_open_start_web_clock(): void
+    {
+        $this->expectException(TruckvisionApiMechanicHasClockingOpenException::class);
+        $this->expectExceptionMessage('Er staat voor deze monteur al een klokking open');
+
+        $this->mockRequest('error_mechanic_has_clocking_open_start_web_clock_response');
+
+        $request = new StartWebClock(
+            new RequestTemplate(),
+            4001,
+            '2012913023',
+            new DateTime('2019-01-06 07:54'),
             'User'
         );
 
@@ -86,14 +106,14 @@ class TruckvisionApiTest extends TestCase
         );
 
         $this->assertSame(
-            31245,
+            1056511,
             $this->truckvision_api->request($request)->send()->getClockingId()
         );
     }
 
     public function test_error_stop_web_clock_all(): void
     {
-        $this->expectException(TruckvisionApiException::class);
+        $this->expectException(TruckvisionApiNoLicenseException::class);
         $this->expectExceptionMessage('Er is geen licentie gevonden voor dit maatwerk');
 
         $this->mockRequest('error_stop_web_clock_response');
