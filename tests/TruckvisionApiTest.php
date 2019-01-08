@@ -12,8 +12,6 @@ use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiAlreadySto
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiInvalidDossierNumberException;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiMechanicHasClockingOpenException;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiNoLicenseException;
-use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiException;
-use Xolvio\TruckvisionApi\Request\RequestTemplate;
 use Xolvio\TruckvisionApi\Request\StartWebClock;
 use Xolvio\TruckvisionApi\Request\StopWebClock;
 use Xolvio\TruckvisionApi\Transaction\Transaction;
@@ -71,11 +69,10 @@ class TruckvisionApiTest extends TestCase
         $this->mockRequest('error_no_license_start_web_clock_response');
 
         $request = new StartWebClock(
-            new RequestTemplate(),
             4001,
-            '20180416668',
             new DateTime('2019-01-06 07:45'),
-            'User'
+            'User',
+            '20180416668'
         );
 
         self::assertXmlStringEqualsXmlFile(__DIR__ . '/requests/no_license_request.xml', $request->build());
@@ -92,11 +89,10 @@ class TruckvisionApiTest extends TestCase
         $this->mockRequest('error_invalid_dossier_number_response');
 
         $request = new StartWebClock(
-            new RequestTemplate(),
             4001,
-            '20180416668',
             new DateTime('2019-01-06 07:45'),
-            'User'
+            'User',
+            '20180416668'
         );
 
         self::assertXmlStringEqualsXmlFile(__DIR__ . '/requests/success_start_web_clock_request.xml', $request->build());
@@ -113,11 +109,10 @@ class TruckvisionApiTest extends TestCase
         $this->mockRequest('error_mechanic_has_clocking_open_start_web_clock_response');
 
         $request = new StartWebClock(
-            new RequestTemplate(),
             4001,
-            '2012913023',
             new DateTime('2019-01-06 07:54'),
-            'User'
+            'User',
+            '2012913023'
         );
 
         $this->truckvision_api->request($request)->send();
@@ -131,11 +126,10 @@ class TruckvisionApiTest extends TestCase
         $this->mockRequest('success_start_web_clock_response');
 
         $request = new StartWebClock(
-            new RequestTemplate(),
             4001,
-            '20180416668',
             new DateTime('2019-01-06 07:45'),
-            'User'
+            'User',
+            '20180416668'
         );
 
         $response = $this->truckvision_api->request($request)->send();
@@ -163,7 +157,6 @@ class TruckvisionApiTest extends TestCase
         $transaction_collection->add(new Transaction(4.50, 983298));
 
         $request = new StopWebClock(
-            new RequestTemplate(),
             $transaction_collection,
             912019,
             new DateTime('2019-01-05 04:33'),
@@ -187,7 +180,6 @@ class TruckvisionApiTest extends TestCase
         $transaction_collection->add(new Transaction(0.25, 22222));
 
         $request = new StopWebClock(
-            new RequestTemplate(),
             $transaction_collection,
             912019,
             new DateTime('2019-01-05 04:33'),

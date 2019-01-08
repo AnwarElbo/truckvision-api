@@ -45,15 +45,14 @@ class StartWebClock implements TruckvisionRequestInterface
     private $username;
 
     public function __construct(
-        RequestTemplate $request_template,
         int $mechanic_code,
         DateTime $start,
         string $username,
         string $order_number = '',
-        string $improductivity_code = 'VG',
+        string $improductivity_code = '',
         string $language_code = 'NL'
     ) {
-        $this->request_template    = $request_template;
+        $this->request_template    = new RequestTemplate();
         $this->improductivity_code = $improductivity_code;
         $this->language_code       = $language_code;
         $this->mechanic_code       = $mechanic_code;

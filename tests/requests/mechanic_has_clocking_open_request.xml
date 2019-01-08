@@ -4,7 +4,7 @@
     <soapenv:Body>
         <v3:StartWebklok>
             <v3:request>
-                <dos:ImproductivityCode>VG</dos:ImproductivityCode>
+                <dos:ImproductivityCode />
                 <dos:LanguageCode>NL</dos:LanguageCode>
                 <dos:MechanicCode>4001</dos:MechanicCode>
                 <dos:OrderNumber>2012913023</dos:OrderNumber>
