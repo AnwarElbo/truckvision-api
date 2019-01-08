@@ -33,14 +33,14 @@ class TransactionCollection
      */
     public function toArray(): array
     {
-        $transactions = ['dos:WebklokTransaction' => $this->transactions->map(
+        $transactions = ['dos:Transaction' => $this->transactions->map(
             function (Transaction $transaction) {
                 return [
-                    // 'dos:ExternalRemark'    => $transaction->getExternalRemark(),
-                    // 'dos:InternalRemark'    => $transaction->getInternalRemark(),
-                    // 'dos:Layer'             => $transaction->getLayer(),
-                    'dos:FileTransactionId' => $transaction->getDossierVerrichtingId(),
-                    'dos:Hours'             => $transaction->getHours(),
+                    'dos:ExternalRemark'       => $transaction->getExternalRemark(),
+                    'dos:InternalRemark'       => $transaction->getInternalRemark(),
+                    'dos:Layer'                => $transaction->getLayer(),
+                    'dos:DossierVerrichtingId' => $transaction->getDossierVerrichtingId(),
+                    'dos:Hours'                => $transaction->getHours(),
                 ];
             })->toArray(),
         ];

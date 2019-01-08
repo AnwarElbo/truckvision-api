@@ -45,7 +45,7 @@ class TruckvisionApiTest extends TestCase
             'error_no_license_start_web_clock_response'                 => file_get_contents(__DIR__ . '/responses/error_no_license_start_web_clock_response.xml'),
             'success_start_web_clock_response'                          => file_get_contents(__DIR__ . '/responses/success_start_web_clock_response.xml'),
             'error_mechanic_has_clocking_open_start_web_clock_response' => file_get_contents(__DIR__ . '/responses/error_mechanic_has_clocking_open_start_web_clock_response.xml'),
-            'error_stop_web_clock_response'                             => file_get_contents(__DIR__ . '/responses/error_stop_web_clock_response.xml'),
+            'success_stop_web_clock_response'                           => file_get_contents(__DIR__ . '/responses/success_stop_web_clock_response.xml'),
         ];
 
         $this->client    = $this->prophesize(ClientInterface::class);
@@ -57,7 +57,7 @@ class TruckvisionApiTest extends TestCase
         );
     }
 
-    public function test_error_start_web_clock_call(): void
+    public function test_no_license_start_web_clock_call(): void
     {
         $this->expectException(TruckvisionApiNoLicenseException::class);
         $this->expectExceptionMessage('Er is geen licentie gevonden voor dit maatwerk');
@@ -105,18 +105,19 @@ class TruckvisionApiTest extends TestCase
             'User'
         );
 
+        $response = $this->truckvision_api->request($request)->send();
+
         $this->assertSame(
             1056511,
-            $this->truckvision_api->request($request)->send()->getClockingId()
+            $response->getClockingId()
         );
+
+        $this->assertSame('OK', $response->getStatusCode());
     }
 
-    public function test_error_stop_web_clock_all(): void
+    public function test_success_stop_web_clock_all(): void
     {
-        $this->expectException(TruckvisionApiNoLicenseException::class);
-        $this->expectExceptionMessage('Er is geen licentie gevonden voor dit maatwerk');
-
-        $this->mockRequest('error_stop_web_clock_response');
+        $this->mockRequest('success_stop_web_clock_response');
 
         $transaction_collection = new TransactionCollection();
 
@@ -134,7 +135,7 @@ class TruckvisionApiTest extends TestCase
             'User'
         );
 
-        $this->truckvision_api->request($request)->send();
+       self::assertSame('OK', $this->truckvision_api->request($request)->send()->getStatusCode());
     }
 
     private function mockRequest(string $request): void

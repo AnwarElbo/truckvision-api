@@ -4,6 +4,7 @@ namespace Xolvio\TruckvisionApi\Exceptions;
 
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiMechanicHasClockingOpenException;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiNoLicenseException;
+use Xolvio\TruckvisionApi\TruckvisionResponseInterface;
 
 class TruckvisionApiResponseExceptionHandler
 {
@@ -13,13 +14,17 @@ class TruckvisionApiResponseExceptionHandler
     public const ERROR_STATUS_CODE = 'NOK';
 
     /**
-     * @param \SimpleXMLElement $element
-     * @param array             $namespaces
+     * @param TruckvisionResponseInterface $response
      *
      * @throws TruckvisionApiException
+     * @throws TruckvisionApiMechanicHasClockingOpenException
+     * @throws TruckvisionApiNoLicenseException
      */
-    public static function handle(\SimpleXMLElement $element, array $namespaces): void
+    public static function handle(TruckvisionResponseInterface $response): void
     {
+        $namespaces = $response->getNamespaces();
+        $element    = $response->getBody();
+
         $status_code = (string) $element->children($namespaces['a'])->ReturnCode;
 
         if (self::ERROR_STATUS_CODE !== $status_code) {

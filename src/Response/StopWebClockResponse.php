@@ -39,10 +39,13 @@ class StopWebClockResponse implements TruckvisionResponseInterface
         $this->content    = $content;
         $this->namespaces = $content->getNamespaces(true);
 
-        TruckvisionApiResponseExceptionHandler::handle($this->getBody(), $this->namespaces);
+        TruckvisionApiResponseExceptionHandler::handle($this);
     }
 
-    private function getBody(): \SimpleXMlElement
+    /**
+     * @return \SimpleXMlElement
+     */
+    public function getBody(): \SimpleXMlElement
     {
         return $this->content
             ->children($this->namespaces['s'])
@@ -50,5 +53,21 @@ class StopWebClockResponse implements TruckvisionResponseInterface
             ->children()
             ->{self::RESPONSE}
             ->{self::RESULT};
+    }
+
+    /**
+     * @return array
+     */
+    public function getNamespaces(): array
+    {
+        return $this->namespaces;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusCode(): string
+    {
+        return (string) $this->getBody()->children($this->namespaces['a'])->ReturnCode;
     }
 }

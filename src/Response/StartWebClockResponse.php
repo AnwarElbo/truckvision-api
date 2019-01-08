@@ -32,13 +32,29 @@ class StartWebClockResponse implements TruckvisionResponseInterface
         $this->content    = $content;
         $this->namespaces = $content->getNamespaces(true);
 
-        TruckvisionApiResponseExceptionHandler::handle($this->getBody(), $this->namespaces);
+        TruckvisionApiResponseExceptionHandler::handle($this, $this->namespaces);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusCode(): string
+    {
+        return (string) $this->getBody()->children($this->namespaces['a'])->ReturnCode;
+    }
+
+    /**
+     * @return int
+     */
+    public function getClockingId(): int
+    {
+        return (int) $this->getBody()->children($this->namespaces['a'])->KlokkingId;
     }
 
     /**
      * @return \SimpleXMLElement
      */
-    private function getBody(): \SimpleXMLElement
+    public function getBody(): \SimpleXMLElement
     {
         return $this->content
             ->children($this->namespaces['s'])
@@ -49,10 +65,10 @@ class StartWebClockResponse implements TruckvisionResponseInterface
     }
 
     /**
-     * @return int
+     * @return array
      */
-    public function getClockingId(): int
+    public function getNamespaces(): array
     {
-        return (int) $this->getBody()->children($this->namespaces['a'])->KlokkingId;
+        return $this->namespaces;
     }
 }
