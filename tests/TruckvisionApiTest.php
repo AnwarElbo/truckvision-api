@@ -9,8 +9,10 @@ use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiAlreadyStoppedClockingException;
+use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiInvalidDossierNumberException;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiMechanicHasClockingOpenException;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiNoLicenseException;
+use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiException;
 use Xolvio\TruckvisionApi\Request\RequestTemplate;
 use Xolvio\TruckvisionApi\Request\StartWebClock;
 use Xolvio\TruckvisionApi\Request\StopWebClock;
@@ -47,6 +49,7 @@ class TruckvisionApiTest extends TestCase
             'success_start_web_clock_response'                          => file_get_contents(__DIR__ . '/responses/success_start_web_clock_response.xml'),
             'error_mechanic_has_clocking_open_start_web_clock_response' => file_get_contents(__DIR__ . '/responses/error_mechanic_has_clocking_open_start_web_clock_response.xml'),
             'error_clocking_already_stopped_response'                   => file_get_contents(__DIR__ . '/responses/error_clocking_already_stopped_response.xml'),
+            'error_invalid_dossier_number_response'                     => file_get_contents(__DIR__ . '/responses/error_invalid_dossier_number_response.xml'),
             'success_stop_web_clock_response'                           => file_get_contents(__DIR__ . '/responses/success_stop_web_clock_response.xml'),
         ];
 
@@ -60,7 +63,7 @@ class TruckvisionApiTest extends TestCase
     }
 
     /** @test */
-    public function no_license_start_web_clock_call(): void
+    public function no_license_start_clock(): void
     {
         $this->expectException(TruckvisionApiNoLicenseException::class);
         $this->expectExceptionMessage('Er is geen licentie gevonden voor dit maatwerk');
@@ -81,7 +84,28 @@ class TruckvisionApiTest extends TestCase
     }
 
     /** @test */
-    public function mechanic_has_clocking_open_start_web_clock(): void
+    public function error_invalid_dossier_number_start_clock(): void
+    {
+        $this->expectException(TruckvisionApiInvalidDossierNumberException::class);
+        $this->expectExceptionMessage('werkordernummer niet geldig');
+
+        $this->mockRequest('error_invalid_dossier_number_response');
+
+        $request = new StartWebClock(
+            new RequestTemplate(),
+            4001,
+            '20180416668',
+            new DateTime('2019-01-06 07:45'),
+            'User'
+        );
+
+        self::assertXmlStringEqualsXmlFile(__DIR__ . '/requests/success_start_web_clock_request.xml', $request->build());
+
+        self::assertSame('OK', $this->truckvision_api->request($request)->send()->getStatusCode());
+    }
+
+    /** @test */
+    public function mechanic_has_clocking_open_start_clock(): void
     {
         $this->expectException(TruckvisionApiMechanicHasClockingOpenException::class);
         $this->expectExceptionMessage('Er staat voor deze monteur al een klokking open');
@@ -102,7 +126,7 @@ class TruckvisionApiTest extends TestCase
     }
 
     /** @test */
-    public function success_start_web_clock_call(): void
+    public function success_start_clock(): void
     {
         $this->mockRequest('success_start_web_clock_response');
 

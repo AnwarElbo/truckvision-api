@@ -47,9 +47,9 @@ class StartWebClock implements TruckvisionRequestInterface
     public function __construct(
         RequestTemplate $request_template,
         int $mechanic_code,
-        string $order_number,
         DateTime $start,
         string $username,
+        string $order_number = '',
         string $improductivity_code = 'VG',
         string $language_code = 'NL'
     ) {

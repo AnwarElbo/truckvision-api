@@ -1,0 +1,13 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+    <s:Body>
+        <StartWebklokResponse xmlns="http://relead.nl/dossierservice/V3">
+            <StartWebklokResult xmlns:a="http://relead.nl/dossierservice" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+                <a:ErrorMessages xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+                    <b:string>werkordernummer niet geldig</b:string>
+                </a:ErrorMessages>
+                <a:KlokkingId>0</a:KlokkingId>
+                <a:ReturnCode>NOK</a:ReturnCode>
+            </StartWebklokResult>
+        </StartWebklokResponse>
+    </s:Body>
+</s:Envelope>
