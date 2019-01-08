@@ -49,7 +49,7 @@ class TruckvisionApiTest extends TestCase
         ];
 
         $this->client    = $this->prophesize(ClientInterface::class);
-        $this->end_point = 'http://truckvisiontest.sentwaninge.com/Services/DossierService/V3/Dossier.svc';
+        $this->end_point = 'http://test.com/Services/DossierService/V3/Dossier.svc';
 
         $this->truckvision_api = new TruckvisionApi(
             $this->client->reveal(),
