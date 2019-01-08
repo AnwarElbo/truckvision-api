@@ -157,10 +157,10 @@ class TruckvisionApiTest extends TestCase
         $transaction_collection->add(new Transaction(4.50, 983298));
 
         $request = new StopWebClock(
-            $transaction_collection,
             912019,
             new DateTime('2019-01-05 04:33'),
-            'User'
+            'User',
+            $transaction_collection
         );
 
         self::assertXmlStringEqualsXmlFile(__DIR__ . '/requests/success_stop_web_clock_request.xml', $request->build());
@@ -175,12 +175,7 @@ class TruckvisionApiTest extends TestCase
 
         $this->mockRequest('error_clocking_already_stopped_response');
 
-        $transaction_collection = new TransactionCollection();
-
-        $transaction_collection->add(new Transaction(0.25, 22222));
-
         $request = new StopWebClock(
-            $transaction_collection,
             912019,
             new DateTime('2019-01-05 04:33'),
             'User'

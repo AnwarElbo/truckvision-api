@@ -9,13 +9,7 @@
                 <dos:Stop>2019-01-05T04:33:00+00:00</dos:Stop>
                 <dos:UserName>User</dos:UserName>
                 <dos:Transactions>
-                    <dos:Transaction>
-                        <dos:ExternalRemark></dos:ExternalRemark>
-                        <dos:InternalRemark></dos:InternalRemark>
-                        <dos:Layer></dos:Layer>
-                        <dos:DossierVerrichtingId>22222</dos:DossierVerrichtingId>
-                        <dos:Hours>0</dos:Hours>
-                    </dos:Transaction>
+                    <dos:Transaction/>
                 </dos:Transactions>
             </v3:request>
         </v3:StopWebklok>

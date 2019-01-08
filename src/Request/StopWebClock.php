@@ -56,14 +56,14 @@ class StopWebClock implements TruckvisionRequestInterface
     private $stop;
 
     public function __construct(
-        TransactionCollection $transaction_collection,
         int $clocking_id,
         DateTime $stop,
         string $username,
+        ?TransactionCollection $transaction_collection = null,
         string $language_code = 'NL'
     ) {
         $this->request_template       = new RequestTemplate();
-        $this->transaction_collection = $transaction_collection;
+        $this->transaction_collection = $transaction_collection ?? new TransactionCollection();
         $this->clocking_id            = $clocking_id;
         $this->language_code          = $language_code;
         $this->username               = $username;

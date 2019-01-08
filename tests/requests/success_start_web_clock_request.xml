@@ -6,7 +6,7 @@
             <v3:request>
                 <dos:ImproductivityCode/>
                 <dos:LanguageCode>NL</dos:LanguageCode>
-                <dos:MechanicCode>4001</dos:MechanicCode>
+                <dos:MechanicNumber>4001</dos:MechanicNumber>
                 <dos:OrderNumber>20180416668</dos:OrderNumber>
                 <dos:Start>2019-01-06T07:45:00+00:00</dos:Start>
                 <dos:UserName>User</dos:UserName>
