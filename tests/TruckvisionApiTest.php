@@ -45,6 +45,7 @@ class TruckvisionApiTest extends TestCase
             'error_no_license_start_web_clock_response'                 => file_get_contents(__DIR__ . '/responses/error_no_license_start_web_clock_response.xml'),
             'success_start_web_clock_response'                          => file_get_contents(__DIR__ . '/responses/success_start_web_clock_response.xml'),
             'error_mechanic_has_clocking_open_start_web_clock_response' => file_get_contents(__DIR__ . '/responses/error_mechanic_has_clocking_open_start_web_clock_response.xml'),
+            'error_clocking_already_stopped_response'                   => file_get_contents(__DIR__ . '/responses/error_clocking_already_stopped_response.xml'),
             'success_stop_web_clock_response'                           => file_get_contents(__DIR__ . '/responses/success_stop_web_clock_response.xml'),
         ];
 
@@ -130,6 +131,29 @@ class TruckvisionApiTest extends TestCase
         $transaction_collection->add(new Transaction(2.10, 18923));
         $transaction_collection->add(new Transaction(3.75, 93842));
         $transaction_collection->add(new Transaction(4.50, 983298));
+
+        $request = new StopWebClock(
+            new RequestTemplate(),
+            $transaction_collection,
+            912019,
+            new DateTime('2019-01-05 04:33'),
+            'User'
+        );
+
+       self::assertSame('OK', $this->truckvision_api->request($request)->send()->getStatusCode());
+    }
+
+    /** @test */
+    public function error_clocking_already_stopped_web_clock_all(): void
+    {
+        $this->expectException(TruckvisionApiAlreadyStoppedClockingException::class);
+        $this->expectExceptionMessage('De opgegeven klokking is niet de openstaande van deze monteur');
+
+        $this->mockRequest('error_clocking_already_stopped_response');
+
+        $transaction_collection = new TransactionCollection();
+
+        $transaction_collection->add(new Transaction(0.25, 22222));
 
         $request = new StopWebClock(
             new RequestTemplate(),

@@ -1,0 +1,12 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+    <s:Body>
+        <StopWebklokResponse xmlns="http://relead.nl/dossierservice/V3">
+            <StopWebklokResult xmlns:a="http://relead.nl/dossierservice" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+                <a:ErrorMessages xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+                    <b:string>De opgegeven klokking is niet de openstaande van deze monteur</b:string>
+                </a:ErrorMessages>
+                <a:ReturnCode>NOK</a:ReturnCode>
+            </StopWebklokResult>
+        </StopWebklokResponse>
+    </s:Body>
+</s:Envelope>
