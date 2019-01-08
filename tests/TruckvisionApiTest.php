@@ -57,7 +57,8 @@ class TruckvisionApiTest extends TestCase
         );
     }
 
-    public function test_no_license_start_web_clock_call(): void
+    /** @test */
+    public function no_license_start_web_clock_call(): void
     {
         $this->expectException(TruckvisionApiNoLicenseException::class);
         $this->expectExceptionMessage('Er is geen licentie gevonden voor dit maatwerk');
@@ -75,7 +76,8 @@ class TruckvisionApiTest extends TestCase
         $this->truckvision_api->request($request)->send();
     }
 
-    public function test_mechanic_has_clocking_open_start_web_clock(): void
+    /** @test */
+    public function mechanic_has_clocking_open_start_web_clock(): void
     {
         $this->expectException(TruckvisionApiMechanicHasClockingOpenException::class);
         $this->expectExceptionMessage('Er staat voor deze monteur al een klokking open');
@@ -93,7 +95,8 @@ class TruckvisionApiTest extends TestCase
         $this->truckvision_api->request($request)->send();
     }
 
-    public function test_success_start_web_clock_call(): void
+    /** @test */
+    public function success_start_web_clock_call(): void
     {
         $this->mockRequest('success_start_web_clock_response');
 
@@ -115,7 +118,8 @@ class TruckvisionApiTest extends TestCase
         $this->assertSame('OK', $response->getStatusCode());
     }
 
-    public function test_success_stop_web_clock_all(): void
+    /** @test */
+    public function success_stop_web_clock_all(): void
     {
         $this->mockRequest('success_stop_web_clock_response');
 
