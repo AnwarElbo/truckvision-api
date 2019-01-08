@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiAlreadyStoppedClockingException;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiMechanicHasClockingOpenException;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiNoLicenseException;
 use Xolvio\TruckvisionApi\Request\RequestTemplate;
