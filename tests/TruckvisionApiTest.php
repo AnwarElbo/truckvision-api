@@ -93,6 +93,7 @@ class TruckvisionApiTest extends TestCase
             new DateTime('2019-01-06 07:54'),
             'User'
         );
+        dd($request->build());
 
         $this->truckvision_api->request($request)->send();
     }
@@ -112,11 +113,12 @@ class TruckvisionApiTest extends TestCase
 
         $response = $this->truckvision_api->request($request)->send();
 
+        self::assertXmlStringEqualsXmlFile(__DIR__ . '/requests/success_start_web_clock.xml', $request->build());
+
         $this->assertSame(
             1056511,
             $response->getClockingId()
         );
-
         $this->assertSame('OK', $response->getStatusCode());
     }
 
@@ -141,7 +143,8 @@ class TruckvisionApiTest extends TestCase
             'User'
         );
 
-       self::assertSame('OK', $this->truckvision_api->request($request)->send()->getStatusCode());
+        self::assertXmlStringEqualsXmlFile(__DIR__ . '/requests/success_stop_web_clock_request.xml', $request->build());
+        self::assertSame('OK', $this->truckvision_api->request($request)->send()->getStatusCode());
     }
 
     /** @test */
@@ -164,7 +167,9 @@ class TruckvisionApiTest extends TestCase
             'User'
         );
 
-       self::assertSame('OK', $this->truckvision_api->request($request)->send()->getStatusCode());
+
+        self::assertXmlStringEqualsXmlFile(__DIR__ . '/requests/clocking_already_stopped_request.xml', $request->build());
+        self::assertSame('OK', $this->truckvision_api->request($request)->send()->getStatusCode());
     }
 
     private function mockRequest(string $request): void

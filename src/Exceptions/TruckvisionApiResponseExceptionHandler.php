@@ -2,6 +2,7 @@
 
 namespace Xolvio\TruckvisionApi\Exceptions;
 
+use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiAlreadyStoppedClockingException;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiMechanicHasClockingOpenException;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiNoLicenseException;
 use Xolvio\TruckvisionApi\TruckvisionResponseInterface;
@@ -39,6 +40,10 @@ class TruckvisionApiResponseExceptionHandler
 
         if (false !== stripos($exception_message, 'Er is geen licentie gevonden voor dit maatwerk')) {
             throw new TruckvisionApiNoLicenseException($exception_message);
+        }
+
+        if (false !== stripos($exception_message, 'De opgegeven klokking is niet de openstaande van deze monteur')) {
+            throw new TruckvisionApiAlreadyStoppedClockingException($exception_message);
         }
 
         throw new TruckvisionApiException((string) $element->children($namespaces['a'])->ErrorMessages->children($namespaces['b'])->string);
