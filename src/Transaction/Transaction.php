@@ -14,39 +14,18 @@ class Transaction
      */
     private $dossier_verrichting_id;
 
-    /**
-     * @var string
-     */
-    private $external_remark;
-
-    /**
-     * @var string
-     */
-    private $internal_remark;
-
-    /**
-     * @var string
-     */
-    private $layer;
-
     public function __construct(
         float $hours,
-        int $dossier_verrichting_id,
-        string $external_remark = '',
-        string $internal_remark = '',
-        string $layer = ''
+        int $dossier_verrichting_id
     ) {
         $this->hours                  = $hours;
         $this->dossier_verrichting_id = $dossier_verrichting_id;
-        $this->external_remark        = $external_remark;
-        $this->internal_remark        = $internal_remark;
-        $this->layer                  = $layer;
     }
 
     /**
      * @return int
      */
-    public function getHours(): int
+    public function getHours(): float
     {
         return $this->hours;
     }
@@ -57,29 +36,5 @@ class Transaction
     public function getDossierVerrichtingId(): int
     {
         return $this->dossier_verrichting_id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExternalRemark(): string
-    {
-        return $this->external_remark;
-    }
-
-    /**
-     * @return string
-     */
-    public function getInternalRemark(): string
-    {
-        return $this->internal_remark;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLayer(): string
-    {
-        return $this->layer;
     }
 }
