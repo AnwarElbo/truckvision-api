@@ -163,8 +163,11 @@ class TruckvisionApiTest extends TestCase
             $transaction_collection
         );
 
+        $response = $this->truckvision_api->request($request)->send();
+
+        self::assertSame(0, $response->getClockingId());
         self::assertXmlStringEqualsXmlFile(__DIR__ . '/requests/success_stop_web_clock_request.xml', $request->build());
-        self::assertSame('OK', $this->truckvision_api->request($request)->send()->getStatusCode());
+        self::assertSame('OK', $response->getStatusCode());
     }
 
     /** @test */
