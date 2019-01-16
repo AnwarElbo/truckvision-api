@@ -8,9 +8,6 @@
                 <dos:LanguageCode>NL</dos:LanguageCode>
                 <dos:Stop>2019-01-05T04:33:00+00:00</dos:Stop>
                 <dos:UserName>User</dos:UserName>
-                <dos:WebklokTransactions>
-                    <dos:WebklokTransaction/>
-                </dos:WebklokTransactions>
             </v3:request>
         </v3:StopWebklok>
     </soapenv:Body>

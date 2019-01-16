@@ -82,7 +82,7 @@ class StopWebClock implements TruckvisionRequestInterface
             'dos:UserName'            => $this->username,
         ];
 
-        if (null !== $this->transaction_collection) {
+        if (! $this->transaction_collection->isEmpty()) {
             $request['dos:WebklokTransactions'] = $this->transaction_collection->toArray();
         }
 
