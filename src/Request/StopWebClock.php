@@ -75,15 +75,20 @@ class StopWebClock implements TruckvisionRequestInterface
      */
     public function build(): string
     {
+        $request = [
+            'dos:KlokkingId'          => $this->clocking_id,
+            'dos:LanguageCode'        => $this->language_code,
+            'dos:Stop'                => $this->stop->format('c'),
+            'dos:UserName'            => $this->username,
+        ];
+
+        if (null !== $this->transaction_collection) {
+            $request['dos:WebklokTransactions'] = $this->transaction_collection->toArray();
+        }
+
         $body = [
             'v3:StopWebklok' => [
-                'v3:request' => [
-                    'dos:KlokkingId'   => $this->clocking_id,
-                    'dos:LanguageCode' => $this->language_code,
-                    'dos:Stop'         => $this->stop->format('c'),
-                    'dos:UserName'     => $this->username,
-                    'dos:WebklokTransactions' => $this->transaction_collection->toArray(),
-                ],
+                'v3:request' => $request,
             ],
         ];
 
