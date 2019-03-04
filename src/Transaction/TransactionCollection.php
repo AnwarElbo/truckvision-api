@@ -45,6 +45,9 @@ class TransactionCollection
         return $transactions;
     }
 
+    /**
+     * @return bool
+     */
     public function isEmpty(): bool
     {
         return $this->transactions->isEmpty();

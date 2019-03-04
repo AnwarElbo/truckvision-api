@@ -23,7 +23,7 @@ class Transaction
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getHours(): float
     {

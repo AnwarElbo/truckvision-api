@@ -160,6 +160,7 @@ class TruckvisionApiTest extends TestCase
             912019,
             new DateTime('2019-01-05 04:33'),
             'User',
+            0,
             $transaction_collection
         );
 
@@ -167,6 +168,31 @@ class TruckvisionApiTest extends TestCase
 
         self::assertSame(0, $response->getClockingId());
         self::assertXmlStringEqualsXmlFile(__DIR__ . '/requests/success_stop_web_clock_request.xml', $request->build());
+        self::assertSame('OK', $response->getStatusCode());
+    }
+
+    /** @test */
+    public function success_stop_web_clock_with_break_time(): void
+    {
+        $this->mockRequest('success_stop_web_clock_response');
+
+        $transaction_collection = new TransactionCollection();
+
+        $transaction_collection->add(new Transaction(3.75, 93842));
+        $transaction_collection->add(new Transaction(4.50, 983298));
+
+        $request = new StopWebClock(
+            912019,
+            new DateTime('2019-01-05 04:33'),
+            'User',
+            1.5,
+            $transaction_collection
+        );
+
+        $response = $this->truckvision_api->request($request)->send();
+
+        self::assertSame(0, $response->getClockingId());
+        self::assertXmlStringEqualsXmlFile(__DIR__ . '/requests/success_stop_web_clock_request_with_break_time.xml', $request->build());
         self::assertSame('OK', $response->getStatusCode());
     }
 

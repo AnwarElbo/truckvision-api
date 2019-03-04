@@ -1,0 +1,26 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dos="http://relead.nl/dossierservice"
+                  xmlns:v4="http://relead.nl/dossierservice/V4">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <v4:StopWebklok>
+            <v4:request>
+                <dos:KlokkingId>912019</dos:KlokkingId>
+                <dos:LanguageCode>NL</dos:LanguageCode>
+                <dos:Stop>2019-01-05T04:33:00+00:00</dos:Stop>
+                <dos:UserName>User</dos:UserName>
+
+                <dos:WebklokTransactions>
+                    <dos:WebklokTransaction>
+                        <dos:FileTransactionId>93842</dos:FileTransactionId>
+                        <dos:Hours>3.75</dos:Hours>
+                    </dos:WebklokTransaction>
+                    <dos:WebklokTransaction>
+                        <dos:FileTransactionId>983298</dos:FileTransactionId>
+                        <dos:Hours>4.5</dos:Hours>
+                    </dos:WebklokTransaction>
+                </dos:WebklokTransactions>
+                <dos:BreakTime>1.5</dos:BreakTime>
+            </v4:request>
+        </v4:StopWebklok>
+    </soapenv:Body>
+</soapenv:Envelope>

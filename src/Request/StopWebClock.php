@@ -19,22 +19,7 @@ class StopWebClock implements TruckvisionRequestInterface
     /**
      * @var string
      */
-    private $improductivity_code;
-
-    /**
-     * @var string
-     */
     private $language_code;
-
-    /**
-     * @var int
-     */
-    private $mechanic_code;
-
-    /**
-     * @var string
-     */
-    private $order_number;
 
     /**
      * @var string
@@ -55,20 +40,26 @@ class StopWebClock implements TruckvisionRequestInterface
      * @var DateTime
      */
     private $stop;
+    /**
+     * @var float
+     */
+    private $break_time;
 
     public function __construct(
         int $clocking_id,
         DateTime $stop,
         string $username,
+        float $break_time = 0,
         ?TransactionCollection $transaction_collection = null,
         string $language_code = 'NL'
     ) {
         $this->request_template       = new RequestTemplate();
-        $this->transaction_collection = $transaction_collection ?? new TransactionCollection();
         $this->clocking_id            = $clocking_id;
-        $this->language_code          = $language_code;
-        $this->username               = $username;
         $this->stop                   = $stop;
+        $this->username               = $username;
+        $this->break_time             = $break_time;
+        $this->language_code          = $language_code;
+        $this->transaction_collection = $transaction_collection ?? new TransactionCollection();
     }
 
     /**
@@ -85,6 +76,10 @@ class StopWebClock implements TruckvisionRequestInterface
 
         if (! $this->transaction_collection->isEmpty()) {
             $request['dos:WebklokTransactions'] = $this->transaction_collection->toArray();
+        }
+
+        if ($this->break_time > 0) {
+            $request['dos:BreakTime'] = $this->break_time;
         }
 
         $body = [
