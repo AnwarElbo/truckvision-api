@@ -3,6 +3,7 @@
 namespace Xolvio\TruckvisionApi\Request;
 
 use Spatie\ArrayToXml\ArrayToXml;
+use Xolvio\TruckvisionApi\TruckvisionApi;
 
 class RequestTemplate
 {
@@ -43,9 +44,9 @@ class RequestTemplate
         return ArrayToXml::convert(['soapenv:Header' => $this->getHeader(), 'soapenv:Body' => $this->getBody()], [
             'rootElementName' => 'soapenv:Envelope',
             '_attributes'     => [
-                'xmlns:soapenv' => 'http://schemas.xmlsoap.org/soap/envelope/',
-                'xmlns:dos'     => 'http://relead.nl/dossierservice',
-                'xmlns:v3'      => 'http://relead.nl/dossierservice/V3',
+                'xmlns:soapenv'                          => 'http://schemas.xmlsoap.org/soap/envelope/',
+                'xmlns:dos'                              => 'http://relead.nl/dossierservice',
+                'xmlns:v' . TruckvisionApi::VERSION      => 'http://relead.nl/dossierservice/V' . TruckvisionApi::VERSION,
             ],
         ]);
     }

@@ -4,6 +4,7 @@ namespace Xolvio\TruckvisionApi\Request;
 
 use DateTime;
 use Xolvio\TruckvisionApi\Response\StartWebClockResponse;
+use Xolvio\TruckvisionApi\TruckvisionApi;
 use Xolvio\TruckvisionApi\TruckvisionRequestInterface;
 use Xolvio\TruckvisionApi\TruckvisionResponseInterface;
 
@@ -67,8 +68,8 @@ class StartWebClock implements TruckvisionRequestInterface
     public function build(): string
     {
         $body = [
-            'v3:StartWebklok' => [
-                'v3:request' => [
+            'v' . TruckvisionApi::VERSION . ':StartWebklok' => [
+                'v' . TruckvisionApi::VERSION . ':request' => [
                     'dos:ImproductivityCode' => $this->improductivity_code,
                     'dos:LanguageCode'       => $this->language_code,
                     'dos:MechanicNumber'     => $this->mechanic_number,
@@ -89,7 +90,7 @@ class StartWebClock implements TruckvisionRequestInterface
      */
     public function getAction(): string
     {
-        return '/dossierservice/V3/IDossier/StartWebklok';
+        return '/dossierservice/V' . TruckvisionApi::VERSION . '/IDossier/StartWebklok';
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Xolvio\TruckvisionApi\Request;
 use DateTime;
 use Xolvio\TruckvisionApi\Response\StopWebClockResponse;
 use Xolvio\TruckvisionApi\Transaction\TransactionCollection;
+use Xolvio\TruckvisionApi\TruckvisionApi;
 use Xolvio\TruckvisionApi\TruckvisionRequestInterface;
 use Xolvio\TruckvisionApi\TruckvisionResponseInterface;
 
@@ -87,8 +88,8 @@ class StopWebClock implements TruckvisionRequestInterface
         }
 
         $body = [
-            'v3:StopWebklok' => [
-                'v3:request' => $request,
+            'v' . TruckvisionApi::VERSION . ':StopWebklok' => [
+                'v' . TruckvisionApi::VERSION . ':request' => $request,
             ],
         ];
 
@@ -102,11 +103,13 @@ class StopWebClock implements TruckvisionRequestInterface
      */
     public function getAction(): string
     {
-        return '/dossierservice/V3/IDossier/StopWebklok';
+        return '/dossierservice/V' . TruckvisionApi::VERSION . '/IDossier/StopWebklok';
     }
 
     /**
      * @param \SimpleXMLElement $element
+     *
+     * @throws \Xolvio\TruckvisionApi\Exceptions\TruckvisionApiException
      *
      * @return TruckvisionResponseInterface
      */

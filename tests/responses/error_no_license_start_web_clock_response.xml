@@ -1,6 +1,6 @@
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
     <s:Body>
-        <StartWebklokResponse xmlns="http://relead.nl/dossierservice/V3">
+        <StartWebklokResponse xmlns="http://relead.nl/dossierservice/V4">
             <StartWebklokResult xmlns:a="http://relead.nl/dossierservice" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
                 <a:ErrorMessages xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
                     <b:string>Er is geen licentie gevonden voor dit maatwerk</b:string>

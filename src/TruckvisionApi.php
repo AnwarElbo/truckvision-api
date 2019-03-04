@@ -9,6 +9,11 @@ use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiNoResponseException;
 class TruckvisionApi
 {
     /**
+     * @var integer
+     */
+    public const VERSION = 4;
+
+    /**
      * @var ClientInterface
      */
     private $client;
