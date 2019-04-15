@@ -45,13 +45,19 @@ class StartWebClock implements TruckvisionRequestInterface
      */
     private $username;
 
+    /**
+     * @var int
+     */
+    private $branch_number;
+
     public function __construct(
         int $mechanic_number,
         DateTime $start,
         string $username,
         string $order_number = '',
         string $improductivity_code = '',
-        string $language_code = 'NL'
+        string $language_code = 'NL',
+        ?int $branch_number = null
     ) {
         $this->request_template    = new RequestTemplate();
         $this->improductivity_code = $improductivity_code;
@@ -60,7 +66,7 @@ class StartWebClock implements TruckvisionRequestInterface
         $this->order_number        = $order_number;
         $this->start               = $start;
         $this->username            = $username;
-        $this->branch
+        $this->branch_number       = $branch_number;
     }
 
     /**
@@ -71,6 +77,7 @@ class StartWebClock implements TruckvisionRequestInterface
         $body = [
             'v' . TruckvisionApi::VERSION . ':StartWebklok' => [
                 'v' . TruckvisionApi::VERSION . ':request' => [
+                    'dos:BrancheNumber'      => $this->branch_number,
                     'dos:ImproductivityCode' => $this->improductivity_code,
                     'dos:LanguageCode'       => $this->language_code,
                     'dos:MechanicNumber'     => $this->mechanic_number,
