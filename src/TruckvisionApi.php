@@ -11,7 +11,7 @@ class TruckvisionApi
     /**
      * @var integer
      */
-    public const VERSION = 4;
+    public const VERSION = 5;
 
     /**
      * @var ClientInterface
