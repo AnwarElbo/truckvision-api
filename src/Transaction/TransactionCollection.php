@@ -3,8 +3,9 @@
 namespace Xolvio\TruckvisionApi\Transaction;
 
 use Illuminate\Support\Collection;
+use Xolvio\TruckvisionApi\TruckvisionCollectionInterface;
 
-class TransactionCollection
+class TransactionCollection implements TruckvisionCollectionInterface
 {
     /**
      * @var Collection
@@ -31,10 +32,10 @@ class TransactionCollection
     /**
      * @return array
      */
-    public function toArray(): array
+    public function toXmlArray(): array
     {
         $transactions = ['dos:WebklokTransaction' => $this->transactions->map(
-            function (Transaction $transaction) {
+            static function (Transaction $transaction) {
                 return [
                     'dos:FileTransactionId' => $transaction->getDossierVerrichtingId(),
                     'dos:Hours'             => $transaction->getHours(),
@@ -43,6 +44,14 @@ class TransactionCollection
         ];
 
         return $transactions;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function toCollection(): Collection
+    {
+        return $this->transactions;
     }
 
     /**

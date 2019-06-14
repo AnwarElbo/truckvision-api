@@ -70,12 +70,4 @@ class StopWebClockResponse implements TruckvisionResponseInterface
     {
         return (string) $this->getBody()->children($this->namespaces['a'])->ReturnCode;
     }
-
-    /**
-     * @return int
-     */
-    public function getClockingId(): int
-    {
-        return 0;
-    }
 }

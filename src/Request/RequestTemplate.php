@@ -47,6 +47,7 @@ class RequestTemplate
                 'xmlns:soapenv'                          => 'http://schemas.xmlsoap.org/soap/envelope/',
                 'xmlns:dos'                              => 'http://relead.nl/dossierservice',
                 'xmlns:v' . TruckvisionApi::VERSION      => 'http://relead.nl/dossierservice/V' . TruckvisionApi::VERSION,
+                'xmlns:truc'                             => 'http://schemas.datacontract.org/2004/07/TruckVision.Services.DossierService.V' . TruckvisionApi::VERSION
             ],
         ]);
     }

@@ -3,6 +3,8 @@
 namespace Xolvio\TruckvisionApi\Request;
 
 use DateTime;
+use SimpleXMLElement;
+use Xolvio\TruckvisionApi\Exceptions\TruckvisionApiException;
 use Xolvio\TruckvisionApi\Response\StopWebClockResponse;
 use Xolvio\TruckvisionApi\Transaction\TransactionCollection;
 use Xolvio\TruckvisionApi\TruckvisionApi;
@@ -80,7 +82,7 @@ class StopWebClock implements TruckvisionRequestInterface
 
 
         if (! $this->transaction_collection->isEmpty()) {
-            $request['dos:WebklokTransactions'] = $this->transaction_collection->toArray();
+            $request['dos:WebklokTransactions'] = $this->transaction_collection->toXmlArray();
         }
 
         $body = [
@@ -103,13 +105,13 @@ class StopWebClock implements TruckvisionRequestInterface
     }
 
     /**
-     * @param \SimpleXMLElement $element
+     * @param SimpleXMLElement $element
      *
-     * @throws \Xolvio\TruckvisionApi\Exceptions\TruckvisionApiException
+     * @throws TruckvisionApiException
      *
      * @return TruckvisionResponseInterface
      */
-    public function setResponse(\SimpleXMLElement $element): TruckvisionResponseInterface
+    public function setResponse(SimpleXMLElement $element): TruckvisionResponseInterface
     {
         return new StopWebClockResponse($element);
     }
