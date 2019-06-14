@@ -42,7 +42,7 @@ class OtherCollection implements TruckvisionCollectionInterface
                     'dos:OtherIdentifier' => $other->getOtherIdentifier(),
                     'dos:Quantity'        => $other->getQuantity()
                 ];
-            })
+            })->toArray()
         ];
     }
 
