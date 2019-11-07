@@ -5,7 +5,7 @@ namespace Xolvio\TruckvisionApi\Request;
 
 
 use SimpleXMLElement;
-use Xolvio\TruckvisionApi\Response\AddOtherResponse;
+use Xolvio\TruckvisionApi\Response\ChangeTransactionProcessIdResponse;
 use Xolvio\TruckvisionApi\TruckvisionApi;
 use Xolvio\TruckvisionApi\TruckvisionRequestInterface;
 use Xolvio\TruckvisionApi\TruckvisionResponseInterface;
@@ -86,6 +86,6 @@ class ChangeTransactionProcessId implements TruckvisionRequestInterface
      */
     public function setResponse(SimpleXMLElement $element): TruckvisionResponseInterface
     {
-        return new AddOtherResponse($element);
+        return new ChangeTransactionProcessIdResponse($element);
     }
 }
