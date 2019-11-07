@@ -71,4 +71,17 @@ class StartWebClockResponse implements TruckvisionResponseInterface
     {
         return $this->namespaces;
     }
+
+    /**
+     * @return string
+     */
+    public function getErrorString(): string
+    {
+        return (string) 
+            $this->getBody()
+            ->children($this->namespaces['a'])
+            ->ErrorMessages
+            ->children($this->namespaces['b'])
+            ->string;
+    }
 }

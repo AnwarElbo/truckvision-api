@@ -18,4 +18,9 @@ interface TruckvisionResponseInterface
      * @return array
      */
     public function getNamespaces(): array;
+
+    /**
+     * @return string
+     */
+    public function getErrorString(): string;
 }

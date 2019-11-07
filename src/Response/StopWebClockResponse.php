@@ -70,4 +70,17 @@ class StopWebClockResponse implements TruckvisionResponseInterface
     {
         return (string) $this->getBody()->children($this->namespaces['a'])->ReturnCode;
     }
+
+    /**
+     * @return string
+     */
+    public function getErrorString(): string
+    {
+        return (string) 
+            $this->getBody()
+            ->children($this->namespaces['a'])
+            ->ErrorMessages
+            ->children($this->namespaces['b'])
+            ->string;
+    }
 }
