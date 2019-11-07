@@ -4,6 +4,7 @@ namespace Xolvio\TruckvisionApi\Exceptions;
 
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiAlreadyStoppedClockingException;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiInvalidDossierNumberException;
+use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiInvalidProcessCodeException;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiMechanicHasClockingOpenException;
 use Xolvio\TruckvisionApi\Exceptions\ResponseExceptions\TruckvisionApiNoLicenseException;
 use Xolvio\TruckvisionApi\TruckvisionResponseInterface;
@@ -27,7 +28,7 @@ class TruckvisionApiResponseExceptionHandler
         $namespaces = $response->getNamespaces();
         $element    = $response->getBody();
 
-        $status_code = (string) $element->children($namespaces['a'])->ReturnCode;
+        $status_code = $response->getStatusCode();
 
         if (self::ERROR_STATUS_CODE !== $status_code) {
             return;
@@ -49,6 +50,10 @@ class TruckvisionApiResponseExceptionHandler
 
         if (false !== stripos($exception_message, 'werkordernummer niet geldig')) {
             throw new TruckvisionApiInvalidDossierNumberException($exception_message);
+        }
+
+        if (false !== stripos($exception_message, 'Er is geen ProcesId met code')) {
+            throw new TruckvisionApiInvalidProcessCodeException($exception_message);
         }
 
         throw new TruckvisionApiException((string) $element->children($namespaces['a'])->ErrorMessages->children($namespaces['b'])->string);
